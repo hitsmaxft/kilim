@@ -1,5 +1,6 @@
 package kilim.test.ex;
 import kilim.Pausable;
+
 public class ExFlow {
     void loop() throws Pausable {
         ExA a = null;

@@ -18,7 +18,7 @@ public class TestInvalidPausables extends TestCase {
             fail("Expected weave exception while processing " + className);
         } catch (KilimException ke) {
         } catch (Exception e) {
-            fail(e.toString());
+            fail(e.getMessage());
         }
     }
     public void testWeaveConstructor() {
