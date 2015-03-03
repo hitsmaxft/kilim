@@ -16,10 +16,6 @@
 	<packaging>jar</packaging>
 
 	<dependencies>
-        <dependency>
-            <groupId>kilim</groupId>
-            <artifactId>kilim</artifactId>
-        </dependency>
 		<dependency>
 			<groupId>org.ow2.asm</groupId>
 			<artifactId>asm-all</artifactId>
@@ -142,12 +138,12 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>2.4</version>
                 <configuration>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <mainClass>kilim.tools.Weaver</mainClass>
-                        </manifest>
-                    </archive>
+                    <!--<archive>-->
+                        <!--<manifest>-->
+                            <!--<addClasspath>true</addClasspath>-->
+                            <!--<mainClass>kilim.tools.Weaver</mainClass>-->
+                        <!--</manifest>-->
+                    <!--</archive>-->
                     <finalName>kilim</finalName>
                 </configuration>
             </plugin>
