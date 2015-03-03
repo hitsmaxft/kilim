@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>kilim</groupId>
+        <artifactId>kilim-parent</artifactId>
+        <version>1.0</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+	<artifactId>kilim-example</artifactId>
+	<version>1.0</version>
+	<packaging>jar</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>kilim</groupId>
+            <artifactId>kilim</artifactId>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<!-- http://docs.codehaus.org/display/MAVENUSER/Running+ant+tasks+that+use+the+JDK -->
+				<dependencies>
+					<dependency>
+						<groupId>com.sun</groupId>
+						<artifactId>tools</artifactId>
+						<version>1.7.0</version>
+						<scope>system</scope>
+						<systemPath>${java.home}/../lib/tools.jar</systemPath>
+					</dependency>
+				</dependencies>
+
+                <executions>
+                    <execution>
+                        <id>weave-classes</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <tasks>
+                                <property name="output-path" value="${project.build.outputDirectory}"/>
+                                <property name="asm-jar-path" value="${maven.dependency.org.ow2.asm.asm-all.jar.path}"/>
+                                <property name="weaer-jar-path" value="${maven.dependency.kilim.kilim.jar.path}"/>
+                                <property name="kilim-class-path" value="${project.basedir}/../kilim/target/classes/"/>
+                                <ant antfile="build.xml" target="weave-classes"  inheritRefs="true"/>
+                            </tasks>
+                        </configuration>
+                    </execution>
+                </executions>
+			</plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+        </plugins>
+	</build>
+</project>
+
+

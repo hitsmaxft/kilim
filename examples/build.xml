@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<project name="kilim" default="all">
+
+  <path id="kilim.classpath">
+    <pathelement location="${asm-jar-path}"/>
+    <pathelement location="${kilim-jar-path}"/>
+    <pathelement location="${output-path}" />
+    <pathelement location="${kilim-class-path}" />
+    <pathelement path="${java.class.path}" />
+  </path>
+
+  <!-- Glob a list of .j files into a space-separated list -->
+  <pathconvert property="dotjfiles" pathsep=" ">
+    <path>
+      <fileset dir="." includes="**/*.j" />
+    </path>
+  </pathconvert>
+
+    <target name="weave-classes" >
+        <java classname="kilim.tools.Weaver" fork ="yes">
+            <classpath refid="kilim.classpath"/>
+            <assertions>
+                <enable/>
+            </assertions>
+            <arg value="-d" />
+            <arg value="${output-path}" />
+            <arg line="${output-path}" />
+        </java>
+    </target>
+</project>

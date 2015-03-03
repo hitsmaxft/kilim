@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<project name="kilim" default="all">
+
+  <path id="kilim.classpath">
+      <pathelement location="${maven-dependence-path}"/>
+    <pathelement location="${output-path}" />
+    <pathelement path="${java.class.path}" />
+  </path>
+    <path id="kilim.test.classpath">
+        <pathelement location="${maven-dependence-path}"/>
+        <pathelement location="${junit-dependence-path}"/>
+        <pathelement location="${output-path}" />
+        <pathelement location="${test-output-path}" />
+        <pathelement path="${java.class.path}" />
+    </path>
+
+  <!-- Glob a list of .j files into a space-separated list -->
+  <pathconvert property="dotjfiles" pathsep=" ">
+    <path>
+      <fileset dir="." includes="**/*.j" />
+    </path>
+  </pathconvert>
+
+    <target name="weave-classes" >
+        <java classname="kilim.tools.Weaver" fork ="yes">
+            <classpath refid="kilim.classpath"/>
+            <assertions>
+                <enable/>
+            </assertions>
+            <arg value="-d" />
+            <arg value="${output-path}" />
+            <arg line="${output-path}" />
+        </java>
+    </target>
+
+    <target name="asm-dotfiles">
+        <java classname="kilim.tools.Asm" classpathref="kilim.classpath" fork="yes">
+            <arg line="-nf -d ${test-output-path}" />
+            <arg line="${dotjfiles}" />
+        </java>
+    </target>
+
+    <target name="weave-test-classes" depends="asm-dotfiles">
+        <java classname="kilim.tools.Weaver" classpathref="kilim.test.classpath" fork ="yes">
+            <assertions>
+                <enable/>
+            </assertions>
+            <arg value="-x" />
+            <!-- Skip classes that match ExInvalid. These are negative tests
+                 for the weaver. Also skip tests for this pass-->
+            <arg value="ExInvalid" />
+            <arg value="-d" />
+            <arg value="${test-output-path}" />
+            <arg value="${test-output-path}" />
+        </java>
+    </target>
+</project>
